@@ -1,0 +1,14 @@
+[package]
+name = "us_time_parser"
+version = "0.1.0"
+description = "Rust library for parsing and validating date strings in 'YYYY-MM-DD' format" 
+edition = "2021"
+license = "MIT" 
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.75"
+peg = "0.8.2"
+pest = "2.7.5"
+pest_derive = "2.7.5"

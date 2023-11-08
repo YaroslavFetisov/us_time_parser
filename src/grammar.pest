@@ -1,0 +1,4 @@
+date = { year ~ "-" ~ month ~ "-" ~ day }
+year = @{ ASCII_DIGIT{4} }
+month = @{ ASCII_DIGIT{2} }
+day = @{ ASCII_DIGIT{2} }
