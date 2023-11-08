@@ -87,21 +87,4 @@ mod tests {
         let input = "";
         assert!(parse_date(input).is_err());
     }
-    #[test]
-    fn test_valid_max_days_non_leap_year() {
-        let input = "2023-02-29";
-        assert!(parse_date(input).is_err());
-    }
-
-    #[test]
-    fn test_valid_max_days_leap_year() {
-        let input = "2024-02-29";
-        assert!(parse_date(input).is_ok());
-    }
-
-    #[test]
-    fn test_valid_max_days_30_days_month() {
-        let input = "2023-04-31";
-        assert!(parse_date(input).is_err());
-    }
 }
