@@ -53,10 +53,7 @@ fn main() {
                         .required(true),
                 ),
         )
-        .subcommand(
-            SubCommand::with_name("help")
-                .about("Displays help and credits information"),
-        )
+        .subcommand(SubCommand::with_name("help").about("Displays help and credits information"))
         .get_matches();
 
     match matches.subcommand() {

@@ -6,32 +6,32 @@ use pest_derive::Parser;
 #[grammar = "grammar.pest"]
 pub struct TimeParser;
 
-pub fn parse_time(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
-
+// Parse the input string as a time using the 'time' rule
+pub fn parse_time(input: &str) -> anyhow::Result<pest::iterators::Pairs<'_, Rule>> {
     let parse = TimeParser::parse(Rule::time, input)?;
     Ok(parse)
 }
 
-pub fn parse_hour(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
-
+// Parse the input string as an hour using the 'hour' rule
+pub fn parse_hour(input: &str) -> anyhow::Result<pest::iterators::Pairs<'_, Rule>> {
     let parse = TimeParser::parse(Rule::hour, input)?;
     Ok(parse)
 }
 
-pub fn parse_minute(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
-
+// Parse the input string as a minute using the 'minute' rule
+pub fn parse_minute(input: &str) -> anyhow::Result<pest::iterators::Pairs<'_, Rule>> {
     let parse = TimeParser::parse(Rule::minute, input)?;
     Ok(parse)
 }
 
-pub fn parse_second(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
-
+// Parse the input string as a second using the 'second' rule
+pub fn parse_second(input: &str) -> anyhow::Result<pest::iterators::Pairs<'_, Rule>> {
     let parse = TimeParser::parse(Rule::second, input)?;
     Ok(parse)
 }
 
-pub fn parse_am_pm(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
-
+// Parse the input string as AM/PM using the 'am_pm' rule
+pub fn parse_am_pm(input: &str) -> anyhow::Result<pest::iterators::Pairs<'_, Rule>> {
     let parse = TimeParser::parse(Rule::am_pm, input)?;
     Ok(parse)
 }
@@ -51,8 +51,8 @@ mod tests {
     #[test]
     fn test_parse_time_invalid() {
         assert!(parse_time("25:00").is_err());
-        assert!(parse_time("12:60:00").is_err()); 
-        assert!(parse_time("3:45 BM").is_err()); 
+        assert!(parse_time("12:60:00").is_err());
+        assert!(parse_time("3:45 BM").is_err());
     }
 
     #[test]

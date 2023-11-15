@@ -1,15 +1,23 @@
+/// Description of the time format:
 time = { hour ~ ":" ~ minute ~ (":" ~ second)? ~ (space ~ am_pm)? }
 
+/// Hours ranging from 0 to 23. Can be one or two digits.
 hour = { "0" ~ ASCII_DIGIT | "1" ~ ASCII_DIGIT | "2" ~ three_digit }
 
+/// Minutes ranging from 00 to 59. First digit can always be 0, and the second from 0 to 9.
 minute = { first_digit ~ ASCII_DIGIT }
 
+/// Seconds ranging from 00 to 59. Similar to minutes, two digits exist.
 second = { first_digit ~ ASCII_DIGIT }
 
+/// Indication of AM (before noon) or PM (after noon), in any case and with or without dots.
 am_pm = { "AM" | "PM" | "am" | "pm" | "A.M." | "P.M" | "a.m." | "p.m."}
 
+/// First digit for hours, minutes, and seconds. Ranges from 0 to 5.
 first_digit = _{ "0" | "1" | "2" | "3" | "4" | "5" }
 
+/// First digit for hours when it's two digits. Ranges from 0 to 2.
 three_digit = _{ "0" | "1" | "2" | "3" }
 
-space = _{" " | ""}
+/// Space between time components or absence thereof.
+space = _{" " | ""} 
