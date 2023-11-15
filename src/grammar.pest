@@ -1,4 +1,15 @@
-date = { year ~ "-" ~ month ~ "-" ~ day }
-year = @{ ASCII_DIGIT{4} }
-month = @{ ASCII_DIGIT{2} }
-day = @{ ASCII_DIGIT{2} }
+time = { hour ~ ":" ~ minute ~ (":" ~ second)? ~ (space ~ am_pm)? }
+
+hour = { "0" ~ ASCII_DIGIT | "1" ~ ASCII_DIGIT | "2" ~ three_digit }
+
+minute = { first_digit ~ ASCII_DIGIT }
+
+second = { first_digit ~ ASCII_DIGIT }
+
+am_pm = { "AM" | "PM" | "am" | "pm" | "A.M." | "P.M" | "a.m." | "p.m."}
+
+first_digit = _{ "0" | "1" | "2" | "3" | "4" | "5" }
+
+three_digit = _{ "0" | "1" | "2" | "3" }
+
+space = _{" " | ""}

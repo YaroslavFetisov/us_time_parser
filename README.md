@@ -1,64 +1,104 @@
-# Date Parser
+# Time Parser
 
-This is a Rust library for parsing date strings in the "YYYY-MM-DD" format. It utilizes the `pest` parser generator to provide a flexible and extensible way to parse date strings. The parsed date components (year, month, and day) are then validated to ensure they conform to the expected ranges.
+The Time Parser is a Rust-based utility designed to parse various time components from input strings. It utilizes the `pest` crate for parsing grammar and `clap` for handling command-line arguments.
 
-## Parsing Process
+[us_time_parser Crate on crates.io](https://crates.io/crates/us_time_parser)
 
-The library performs the following parsing and validation steps:
+## Parsing Components
 
-1. The input string is expected to be in the "YYYY-MM-DD" format.
-2. It checks the length of the input string to ensure it's exactly 10 characters.
-3. It uses the `pest` parser to tokenize the input string and extract year, month, and day components.
-4. Year, month, and day values are parsed and checked for validity.
-5. The year is expected to be in the range of 1000 to 9999.
-6. The month is expected to be in the range of 1 to 12.
-7. The day is checked to be within the valid range for the given month and year.
+The parser can extract the following time components:
 
-## Usage
-
-To use this library, you can include it as a dependency in your Rust project's `Cargo.toml` file. Once added, you can call the `parse_date` function to parse and validate date strings.
-
-```rust
-extern crate my_date_parser;
-
-use my_date_parser::parse_date;
-
-fn main() {
-    let date_str = "2023-11-08";
-    match parse_date(date_str) {
-        Ok(()) => println!("Date is valid"),
-        Err(err) => eprintln!("Error: {}", err),
-    }
-}
-# Date Parser
-
-This is a Rust library for parsing date strings in the "YYYY-MM-DD" format. It utilizes the `pest` parser generator to provide a flexible and extensible way to parse date strings. The parsed date components (year, month, and day) are then validated to ensure they conform to the expected ranges.
+- **Complete Time:** Parses complete time strings in the format `HH:MM:SS AM/PM`, where `HH` represents hours, `MM` represents minutes, `SS` represents seconds (optional), and `AM/PM` represents the time of day.
+- **Hour:** Parses hours in a 24-hour format (00-23).
+- **Minute:** Parses minutes in the range of 00-59.
+- **Second:** Parses seconds in the range of 00-59 (optional in the complete time format).
+- **AM/PM:** Parses the time of day indicator (AM or PM in various formats).
 
 ## Parsing Process
 
-The library performs the following parsing and validation steps:
+The parsing process involves defining parsing rules in the `grammar.pest` file using the Pest parser generator. Each time component has its specific grammar rules defined, allowing the parser to identify and extract the relevant parts from the input string.
 
-1. The input string is expected to be in the "YYYY-MM-DD" format.
-2. It checks the length of the input string to ensure it's exactly 10 characters.
-3. It uses the `pest` parser to tokenize the input string and extract year, month, and day components.
-4. Year, month, and day values are parsed and checked for validity.
-5. The year is expected to be in the range of 1000 to 9999.
-6. The month is expected to be in the range of 1 to 12.
-7. The day is checked to be within the valid range for the given month and year.
+The Rust functions in `lib.rs` utilize the defined parsing rules to parse specific time components. These functions return the parsed components as iterators of Pest tokens, allowing further processing or validation of the parsed data.
 
 ## Usage
 
-To use this library, you can include it as a dependency in your Rust project's `Cargo.toml` file. Once added, you can call the `parse_date` function to parse and validate date strings.
+### Incorporating into Your Rust Project
 
-```rust
-extern crate my_date_parser;
+To use the Time Parser utility in your Rust project, follow these steps:
 
-use my_date_parser::parse_date;
+1. **Add as Dependency:**
 
-fn main() {
-    let date_str = "2023-11-08";
-    match parse_date(date_str) {
-        Ok(()) => println!("Date is valid"),
-        Err(err) => eprintln!("Error: {}", err),
-    }
-}
+    Include the `us_time_parser` crate as a dependency in your `Cargo.toml` file:
+
+    ```toml
+    [dependencies]
+    us_time_parser = "x.x.x"  # Replace "x.x.x" with the latest version
+    ```
+
+2. **Parsing Time Components:**
+
+    Import the `us_time_parser` crate into your project:
+
+    ```rust
+    use us_time_parser::*;
+    ```
+
+    You can now utilize the parsing functions provided by the `us_time_parser` crate to extract specific time components from strings in your project.
+
+    ```rust
+    let parsed_hour = parse_hour("15");
+    let parsed_minute = parse_minute("45");
+    // Handle the parsed components as needed
+    ```
+
+### Command-line Interface
+
+The Time Parser utility also provides a command-line interface (CLI) for interactive parsing:
+
+1. **Install Dependencies:**
+
+    Ensure you have Rust installed on your system.
+
+2. **Clone the Repository:**
+
+    Clone the Time Parser repository to your local machine:
+
+    ```bash
+    git clone https://github.com/yourusername/your-timestamp-parser.git
+    ```
+
+3. **Build and Run:**
+
+    Navigate to the project directory and build the project:
+
+    ```bash
+    cd your-timestamp-parser
+    cargo build --release
+    ```
+
+4. **Command Usage:**
+
+    Run the utility with various subcommands to parse different time components:
+
+    ```bash
+    # Parse complete time
+    target/release/your-time-parser parse_time "12:45 PM"
+
+    # Parse hour
+    target/release/your-time-parser parse_hour "14"
+
+    # Parse minute
+    target/release/your-time-parser parse_minute "30"
+
+    # Parse second
+    target/release/your-time-parser parse_second "55"
+
+    # Parse AM/PM
+    target/release/your-time-parser parse_am_pm "AM"
+    ```
+
+    Replace `"your-time-parser"` with the name of the executable generated in your project.
+
+### Contribution
+
+Feel free to contribute to the Time Parser utility by opening issues or submitting pull requests on the repository. Your contributions are highly appreciated!

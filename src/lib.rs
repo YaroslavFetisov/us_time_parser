@@ -1,90 +1,111 @@
-extern crate pest;
-#[macro_use]
-extern crate pest_derive;
-
+use anyhow::*;
 use pest::Parser;
-use anyhow::{anyhow, Result};
+use pest_derive::Parser;
 
 #[derive(Parser)]
 #[grammar = "grammar.pest"]
-struct DateParser;
+pub struct TimeParser;
 
-pub fn parse_date(input: &str) -> Result<()> {
-  if input.len() != 10 {
-      return Err(anyhow!("Invalid date length"));
-  }
+pub fn parse_time(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
 
-  let pairs = DateParser::parse(Rule::date, input)?;
-  let mut year_value: Option<u32> = None;
-  let mut month_value: Option<u32> = None;
-
-  for pair in pairs {
-      match pair.as_rule() {
-          Rule::year => {
-              year_value = Some(pair.as_str().parse().map_err(|_| anyhow!("Failed to parse year as u32"))?);
-              if let Some(year) = year_value {
-                  if year < 1000 || year > 9999 {
-                      return Err(anyhow!("Year must be between 1000 and 9999"));
-                  }
-              }
-          }
-          Rule::month => {
-              month_value = Some(pair.as_str().parse().map_err(|_| anyhow!("Failed to parse month as u32"))?);
-              if let Some(month) = month_value {
-                  if month < 1 || month > 12 {
-                      return Err(anyhow!("Month must be between 1 and 12"));
-                  }
-              }
-          }
-          Rule::day => {
-              let day_value: u32 = pair.as_str().parse().map_err(|_| anyhow!("Failed to parse day as u32"))?;
-              if let (Some(year), Some(month)) = (year_value, month_value) {
-                  let max_day = max_day_in_month(year, month);
-                  if day_value < 1 || day_value > max_day {
-                      return Err(anyhow!("Day must be between 1 and {}", max_day));
-                  }
-              }
-          }
-          _ => {}
-      }
-  }
-
-  Ok(())
+    let parse = TimeParser::parse(Rule::time, input)?;
+    Ok(parse)
 }
 
+pub fn parse_hour(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
 
-fn max_day_in_month(year: u32, month: u32) -> u32 {
-  match month {
-      1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
-      4 | 6 | 9 | 11 => 30,
-      2 => {
-          if (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) {
-              29
-          } else {
-              28
-          }
-      },
-      _ => 0,
-  }
+    let parse = TimeParser::parse(Rule::hour, input)?;
+    Ok(parse)
+}
+
+pub fn parse_minute(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
+
+    let parse = TimeParser::parse(Rule::minute, input)?;
+    Ok(parse)
+}
+
+pub fn parse_second(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
+
+    let parse = TimeParser::parse(Rule::second, input)?;
+    Ok(parse)
+}
+
+pub fn parse_am_pm(input:&str) -> anyhow::Result <pest::iterators::Pairs<'_, Rule>>{
+
+    let parse = TimeParser::parse(Rule::am_pm, input)?;
+    Ok(parse)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
-    fn test_valid_date() {
-        let input = "2023-11-08";
-        assert!(parse_date(input).is_ok());
+    fn test_parse_time_valid() {
+        assert!(parse_time("12:34").is_ok());
+        assert!(parse_time("23:59:59").is_ok());
+        assert!(parse_time("11:45 PM").is_ok());
+        assert!(parse_time("11:45a.m.").is_ok());
     }
-    
+
     #[test]
-    fn test_invalid_date() {
-        let input = "2023-11-0802";
-        assert!(parse_date(input).is_err());
+    fn test_parse_time_invalid() {
+        assert!(parse_time("25:00").is_err());
+        assert!(parse_time("12:60:00").is_err()); 
+        assert!(parse_time("3:45 BM").is_err()); 
     }
+
     #[test]
-    fn test_empty_input() {
-        let input = "";
-        assert!(parse_date(input).is_err());
+    fn test_parse_hour_valid() {
+        assert!(parse_hour("12").is_ok());
+        assert!(parse_hour("00").is_ok());
+        assert!(parse_hour("23").is_ok());
+    }
+
+    #[test]
+    fn test_parse_hour_invalid() {
+        assert!(parse_hour("24").is_err());
+        assert!(parse_hour("9").is_err());
+        assert!(parse_hour("60").is_err());
+    }
+
+    #[test]
+    fn test_parse_minute_valid() {
+        assert!(parse_minute("00").is_ok());
+        assert!(parse_minute("59").is_ok());
+        assert!(parse_minute("05").is_ok());
+    }
+
+    #[test]
+    fn test_parse_minute_invalid() {
+        assert!(parse_minute("60").is_err());
+        assert!(parse_minute("abcd").is_err());
+    }
+
+    #[test]
+    fn test_parse_second_valid() {
+        assert!(parse_second("00").is_ok());
+        assert!(parse_second("59").is_ok());
+        assert!(parse_second("05").is_ok());
+    }
+
+    #[test]
+    fn test_parse_second_invalid() {
+        assert!(parse_second("60").is_err());
+        assert!(parse_second("abcd").is_err());
+    }
+
+    #[test]
+    fn test_parse_am_pm_valid() {
+        assert!(parse_am_pm("AM").is_ok());
+        assert!(parse_am_pm("PM").is_ok());
+        assert!(parse_am_pm("am").is_ok());
+        assert!(parse_am_pm("pm").is_ok());
+    }
+
+    #[test]
+    fn test_parse_am_pm_invalid() {
+        assert!(parse_am_pm("xxx").is_err());
+        assert!(parse_am_pm("noon").is_err());
     }
 }

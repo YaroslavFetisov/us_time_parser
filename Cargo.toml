@@ -1,7 +1,7 @@
 [package]
 name = "us_time_parser"
 version = "0.1.0"
-description = "Rust library for parsing and validating date strings in 'YYYY-MM-DD' format" 
+description = "A Rust utility for parsing and validating time components using pest and clap crates."
 edition = "2021"
 license = "MIT" 
 
@@ -9,9 +9,6 @@ license = "MIT"
 
 [dependencies]
 anyhow = "1.0.75"
-peg = "0.8.2"
+clap = "2.33.3"
 pest = "2.7.5"
 pest_derive = "2.7.5"
-
-[examples]
-parse_date_example = "src/main.rs"
