@@ -28,6 +28,7 @@ To use the Time Parser utility in your Rust project, follow these steps:
 
 1. **Add as Dependency:**
 
+<<<<<<< HEAD
     Include the `us_time_parser` crate as a dependency in your `Cargo.toml` file:
 
     ```toml
@@ -102,3 +103,12 @@ The Time Parser utility also provides a command-line interface (CLI) for interac
 ### Contribution
 
 Feel free to contribute to the Time Parser utility by opening issues or submitting pull requests on the repository. Your contributions are highly appreciated!
+=======
+fn main() {
+    let date_str = "2023-11-08";
+    match parse_date(date_str) {
+        Ok(()) => println!("Date is valid"),
+        Err(err) => eprintln!("Error: {}", err),
+    }
+}
+>>>>>>> 1e9765e67372fb2262701e1c58f6732efb9424a9
