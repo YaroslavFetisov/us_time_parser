@@ -1,6 +1,6 @@
 [package]
 name = "us_time_parser"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Rust utility for parsing and validating time components using pest and clap crates."
 edition = "2021"
 license = "MIT" 
