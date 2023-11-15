@@ -1,6 +1,6 @@
-# Time Parser
+# US Time Parser
 
-The Time Parser is a Rust-based utility designed to parse various time components from input strings. It utilizes the `pest` crate for parsing grammar and `clap` for handling command-line arguments.
+The US Time Parser is a Rust-based utility designed to parse various time components from input strings. It utilizes the `pest` crate for parsing grammar and `clap` for handling command-line arguments.
 
 [us_time_parser Crate on crates.io](https://crates.io/crates/us_time_parser)
 
@@ -24,7 +24,7 @@ The Rust functions in `lib.rs` utilize the defined parsing rules to parse specif
 
 ### Incorporating into Your Rust Project
 
-To use the Time Parser utility in your Rust project, follow these steps:
+To use the US Time Parser utility in your Rust project, follow these steps:
 
 1. **Add as Dependency:**
 
@@ -53,7 +53,7 @@ To use the Time Parser utility in your Rust project, follow these steps:
 
 ### Command-line Interface
 
-The Time Parser utility also provides a command-line interface (CLI) for interactive parsing:
+The US Time Parser utility also provides a command-line interface (CLI) for interactive parsing:
 
 1. **Install Dependencies:**
 
